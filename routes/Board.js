@@ -74,5 +74,28 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    method: 'GET',
+    path: '/api/v1/image',
+    config: {
+      description: 'Get thread.',
+      tags: ['api', 'board'],
+      handler: async (req, reply) => {
+        const {
+          imageAddress,
+        } = req.query;
+        
+        const response = await axios.get(imageAddress, { responseType: 'arraybuffer' });
+        const base64 = new Buffer(response.data, 'binary').toString('base64');
+        return base64;
+      },
+      validate: {
+        query: {
+          imageAddress: Joi.string()
+            .description('Image Address')
+        }
+      }
+    }
   }
 ]
